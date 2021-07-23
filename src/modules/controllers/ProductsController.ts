@@ -25,7 +25,7 @@ class ProductsController {
             name: request.body.name,
             price: parseFloat(request.body.price),
             quantity: parseInt(request.body.quantity),
-        }
+        };
 
         const create = await service.Post(obj);
 
