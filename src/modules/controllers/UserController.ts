@@ -6,6 +6,7 @@ const service = new UserService();
 class UserController {
     public async GetAll(request: Request, response: Response): Promise<Response>{
         const users = await service.GetAll();
+        console.log(request.user.id)
 
         return response.json(users);
     }
