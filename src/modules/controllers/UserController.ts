@@ -6,7 +6,6 @@ const service = new UserService();
 class UserController {
     public async GetAll(request: Request, response: Response): Promise<Response>{
         const users = await service.GetAll();
-        console.log(request.user.id)
 
         return response.json(users);
     }
@@ -19,10 +18,18 @@ class UserController {
             avatar: ''
         };
 
-
         const createUser = await service.Post(obj);
 
         return response.json(createUser);
+    }
+
+    public async UpdateUserAvatar(request: Request, response: Response): Promise<Response>{
+        const user = service.UpdateUserAvatar({
+            user_id: request.user.id,
+            avatarFilename: request.file?.filename,
+        });
+
+        return response.json(user);
     }
 }
 

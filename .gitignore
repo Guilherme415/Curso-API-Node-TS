@@ -1,7 +1,7 @@
 .idea/
 .vscode/
 node_modules/
-src/config/auth.ts/
+src/config/auth.ts
 build/
 temp/
 .env

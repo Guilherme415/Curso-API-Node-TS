@@ -3,6 +3,9 @@ import { getCustomRepository } from "typeorm";
 import UserRepository from "@modules/typeorm/repositories/UserRepository";
 import AppError from "@shared/errors/AppError";
 import { hash } from "bcryptjs";
+import path from "path";
+import uploadConfig from '@config/upload'
+import fs from 'fs';
 
 interface IRequest {
     name: string;
@@ -11,6 +14,10 @@ interface IRequest {
     avatar: string;
 }
 
+interface IRequestAvatar {
+    user_id: string;
+    avatarFilename: any;
+}
 
 
 class UserService {
@@ -40,6 +47,29 @@ class UserService {
         const users = await repository.find();
 
         return users;
+    }
+
+    public async UpdateUserAvatar({ user_id, avatarFilename}: IRequestAvatar): Promise<User>{
+        const repository = getCustomRepository(UserRepository);
+
+        const user = await repository.GetById(user_id);
+
+        if(!user) throw new AppError('User not found');
+
+        if(user.avatar) {
+            const userAvatarFilePath = path.join(uploadConfig.directory, user.avatar);
+            const userAvatarFileExists = await fs.promises.stat(userAvatarFilePath);
+
+            if(userAvatarFileExists) {
+                await fs.promises.unlink(userAvatarFilePath);
+            }
+        }
+
+        user.avatar = avatarFilename;
+
+        await repository.save(user);
+
+        return user;
     }
 }
 
