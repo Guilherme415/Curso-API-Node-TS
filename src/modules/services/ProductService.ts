@@ -4,7 +4,7 @@ import Product from "../typeorm/entities/Product";
 import ProductsRepository from "../typeorm/repositories/ProductsRepository";
 
 interface IRequestId {
-    id: string;
+    id: any;
     name: string;
     price: number;
     quantity: number;
@@ -62,7 +62,7 @@ class ProductService {
         return products;
     }
 
-    public async GetById(id: string): Promise<Product | undefined> {
+    public async GetById(id: any): Promise<Product | undefined> {
         const productsRepository = getCustomRepository(ProductsRepository);
 
         const products = await productsRepository.findOne({id});

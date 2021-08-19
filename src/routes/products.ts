@@ -8,9 +8,9 @@ const productsController = new ProductsController();
 
 productsRouter.get('/', productsController.index);
 
-productsRouter.get('/getById/:id',
+productsRouter.get('/getById/id',
     celebrate({
-        [Segments.PARAMS]: {
+        [Segments.QUERY]: {
             id: Joi.string().uuid().required(),
         },
     }),

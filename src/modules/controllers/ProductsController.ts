@@ -13,7 +13,7 @@ class ProductsController {
     }
 
     public async GetById(request: Request, response: Response): Promise<Response> {
-        const { id } = request.params;
+        const {id} = request.query;
 
         const products = await service.GetById(id);
 
