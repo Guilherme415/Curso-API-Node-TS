@@ -1,12 +1,15 @@
 import UserTokenService from '@modules/services/UserTokenService';
 import { Request, Response } from 'express';
 
-export default class ForgotPasswordController {
+export default class ResetPasswordController {
     public async Post(request: Request, response: Response): Promise<Response> {
         const service = new UserTokenService();
-        const email  = request.body;
+        const {password, token}  = request.body;
 
-        const sendForgotPasswordEmail = await service.SendForgotPasswordEmail(email);
-        return response.status(204).json(sendForgotPasswordEmail);
+        await service.ResetPassword({
+            password,
+            token
+        });
+        return response.status(204).json();
     }
 }
